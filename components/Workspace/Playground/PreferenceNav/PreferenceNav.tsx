@@ -47,7 +47,7 @@ const PreferenceNav: React.FC<PreferenceNavProps> = ({ setSettings, settings }) 
 				</button>
 			</div>
 
-			<div className='flex items-center m-2'>
+			{/* <div className='flex items-center m-2'>
 				<button
 					className='preferenceBtn group'
 					onClick={() => setSettings({ ...settings, settingsModalIsOpen: true })}
@@ -64,7 +64,7 @@ const PreferenceNav: React.FC<PreferenceNavProps> = ({ setSettings, settings }) 
 					</div>
 					<div className='preferenceBtn-tooltip'>Full Screen</div>
 				</button>
-			</div>
+			</div> */}
 			{settings.settingsModalIsOpen && <SettingsModal settings={settings} setSettings={setSettings} />}
 		</div>
 	);

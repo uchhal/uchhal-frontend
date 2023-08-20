@@ -13,9 +13,10 @@ import { problems } from "@/utils/problems/page";
 import { useRouter } from "next/router";
 // import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import axios from "axios";
 
 type PlaygroundProps = {
-	problem: Problem;
+	problem: any;
 	setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 	setSolved: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -28,6 +29,8 @@ export interface ISettings {
 
 const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved }) => {
 	const [activeTestCaseId, setActiveTestCaseId] = useState<number>(0);
+	console.log(problem);
+	
 	let [userCode, setUserCode] = useState<string>(problem.starterCode);
 
 	const [fontSize, setFontSize] = useLocalStorage("lcc-fontSize", "16px");
@@ -38,45 +41,24 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 		dropdownIsOpen: false,
 	});
 
-	// const [user] = useAuthState(auth);
-	const {
-		query: { pid },
-	} = useRouter();
+	const user = localStorage.getItem('user-info');
+	// const {
+	// 	query: { pid },
+	// } = useRouter();
 
 	const handleSubmit = async () => {
-		// if (!user) {
-		// 	toast.error("Please login to submit your code", {
-		// 		position: "top-center",
-		// 		autoClose: 3000,
-		// 		theme: "dark",
-		// 	});
-		// 	return;
-		// }
+		if (!user) {
+			toast.error("Please login to submit your code", {
+				position: "top-center",
+				autoClose: 3000,
+				theme: "dark",
+			});
+			return;
+		}
 		try {
-			userCode = userCode.slice(userCode.indexOf(problem.starterFunctionName));
-			const cb = new Function(`return ${userCode}`)();
-			const handler = problems[pid as string].handlerFunction;
-
-			if (typeof handler === "function") {
-				const success = handler(cb);
-				if (success) {
-					toast.success("Congrats! All tests passed!", {
-						position: "top-center",
-						autoClose: 3000,
-						theme: "dark",
-					});
-					setSuccess(true);
-					setTimeout(() => {
-						setSuccess(false);
-					}, 4000);
-
-					// const userRef = doc(firestore, "users", user.uid);
-					// await updateDoc(userRef, {
-					// 	solvedProblems: arrayUnion(pid),
-					// });
-					setSolved(true);
-				}
-			}
+			const response = await axios.post('http://localhost:8082/compiler', {codeCpp:userCode});
+			console.log(response);
+			
 		} catch (error: any) {
 			console.log(error.message);
 			if (
@@ -97,28 +79,28 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 		}
 	};
 
-	useEffect(() => {
-		const code = localStorage.getItem(`code-${pid}`);
-		// if (user) {
-		// 	setUserCode(code ? JSON.parse(code) : problem.starterCode);
-		// } else {
-			setUserCode(problem.starterCode);
-		// }
-	}, [pid, problem.starterCode]);
+	// useEffect(() => {
+	// 	const code = localStorage.getItem(`code-${pid}`);
+	// 	// if (user) {
+	// 	// 	setUserCode(code ? JSON.parse(code) : problem.starterCode);
+	// 	// } else {
+	// 		setUserCode(problem.starterCode);
+	// 	// }
+	// }, [pid, problem.starterCode]);
 
 	const onChange = (value: string) => {
 		setUserCode(value);
-		localStorage.setItem(`code-${pid}`, JSON.stringify(value));
+		localStorage.setItem(`code-${problem._id}`, JSON.stringify(value));
 	};
 
 	return (
-		<div className='flex flex-col bg-dark-layer-1 relative overflow-x-hidden'>
+		<div className='flex flex-col bg-zinc-400 relative overflow-x-hidden'>
 			<PreferenceNav settings={settings} setSettings={setSettings} />
 
 			<Split className='h-[calc(100vh-94px)]' direction='vertical' sizes={[60, 40]} minSize={60}>
 				<div className='w-full overflow-auto'>
 					<CodeMirror
-						value={userCode}
+						value="kapil the hero"
 						theme={vscodeDark}
 						onChange={onChange}
 						extensions={[javascript()]}
@@ -135,10 +117,10 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 					</div>
 
 					<div className='flex'>
-						{problem.examples.map((example, index) => (
+						{problem.example.map((example1:any, index:any) => (
 							<div
 								className='mr-2 items-start mt-2 '
-								key={example.id}
+								key={example1.id}
 								onClick={() => setActiveTestCaseId(index)}
 							>
 								<div className='flex flex-wrap items-center gap-y-4'>
@@ -157,16 +139,17 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 					<div className='font-semibold my-4'>
 						<p className='text-sm font-medium mt-4 text-white'>Input:</p>
 						<div className='w-full cursor-text rounded-lg border px-3 py-[10px] bg-dark-fill-3 border-transparent text-white mt-2'>
-							{problem.examples[activeTestCaseId].inputText}
+							{problem.example[activeTestCaseId].inputText}
 						</div>
 						<p className='text-sm font-medium mt-4 text-white'>Output:</p>
 						<div className='w-full cursor-text rounded-lg border px-3 py-[10px] bg-dark-fill-3 border-transparent text-white mt-2'>
-							{problem.examples[activeTestCaseId].outputText}
+							{problem.example[activeTestCaseId].outputText}
 						</div>
 					</div>
 				</div>
 			</Split>
 			<EditorFooter handleSubmit={handleSubmit} />
+			{/* <EditorFooter/> */}
 		</div>
 	);
 };
