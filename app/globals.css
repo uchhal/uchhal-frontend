@@ -44,6 +44,7 @@ body {
 .cm-gutters {
 	background-color: #282828 !important;
 }
+
 .cm-focused {
 	outline: none !important;
 }
@@ -58,6 +59,7 @@ body {
 	background-repeat: no-repeat;
 	background-position: 50%;
 }
+
 .gutter:hover {
 	background-color: #0a84ff;
 }
@@ -98,7 +100,22 @@ code {
 	padding: 1rem;
 	white-space: pre-wrap;
 }
+
 .example-card pre strong {
 	color: white;
 	font-size: 1rem;
+}
+
+.container {
+	position: relative;
+	grid-template-columns: auto auto auto ;
+	column-gap: 100px;
+	/* border: 2px solid rgb(96, 92, 92); */
+	box-sizing: border-box;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #efebeb;
+    background-clip: border-box;
+    border: 1px solid #00000020;
+    border-radius: 0.8rem;
 }
