@@ -29,9 +29,12 @@ export interface ISettings {
 
 const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved }) => {
 	const [activeTestCaseId, setActiveTestCaseId] = useState<number>(0);
-	console.log(problem);
+	// console.log(problem);
 	
 	let [userCode, setUserCode] = useState<string>(problem.starterCode);
+	const[runned, setrunned] = useState(false);
+	const[runOutput, setRunOutput] = useState([]);
+	const[submitted, setSubmitted] = useState(false)
 
 	const [fontSize, setFontSize] = useLocalStorage("lcc-fontSize", "16px");
 
@@ -56,8 +59,10 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 			return;
 		}
 		try {
-			const response = await axios.post('http://localhost:8082/compiler', {codeCpp:userCode});
+			const response = await axios.post('http://localhost:8082/compiler', {codeCpp:userCode, problemId: problem.title.replace(/ /g, "-")});
 			console.log(response);
+			// changeInnerContent();
+			setSubmitted(true);
 			
 		} catch (error: any) {
 			console.log(error.message);
@@ -79,14 +84,53 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 		}
 	};
 
-	// useEffect(() => {
-	// 	const code = localStorage.getItem(`code-${pid}`);
-	// 	// if (user) {
-	// 	// 	setUserCode(code ? JSON.parse(code) : problem.starterCode);
-	// 	// } else {
-	// 		setUserCode(problem.starterCode);
-	// 	// }
-	// }, [pid, problem.starterCode]);
+	const handleRun = async () => {
+		if (!user) {
+			toast.error("Please login to submit your code", {
+				position: "top-center",
+				autoClose: 3000,
+				theme: "dark",
+			});
+			return;
+		}
+		try { 
+			let examples = []
+			for (const exa of problem.example){
+				examples.push({input:exa.inputText, expectedOutput:exa.outputText});
+			}
+			const response = await axios.post('http://localhost:8082/compiler', {codeCpp:userCode, problemId: problem.title.replace(/ /g, "-"), examples:examples});
+			console.log(response);
+			// changeInnerContent();
+			setRunOutput(response.data);
+			setrunned(true);
+			
+		} catch (error: any) {
+			console.log(error.message);
+			if (
+				error.message.startsWith("AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:")
+			) {
+				toast.error("Oops! One or more test cases failed", {
+					position: "top-center",
+					autoClose: 3000,
+					theme: "dark",
+				});
+			} else {
+				toast.error(error.message, {
+					position: "top-center",
+					autoClose: 3000,
+					theme: "dark",
+				});
+			}
+		}
+	};
+
+	useEffect(() => {
+		// if (user) {
+		// 	setUserCode(code ? JSON.parse(code) : problem.starterCode);
+		// } else {
+			setUserCode(problem.starterCode);
+		// }
+	}, [runned, submitted]);
 
 	const onChange = (value: string) => {
 		setUserCode(value);
@@ -107,7 +151,7 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 						style={{ fontSize: settings.fontSize }}
 					/>
 				</div>
-				<div className='w-full px-5 overflow-auto'>
+				<div className='w-full px-5 overflow-auto' id="examplePreview">
 					{/* testcase heading */}
 					<div className='flex h-10 items-center space-x-6'>
 						<div className='relative flex h-full flex-col justify-center cursor-pointer'>
@@ -125,8 +169,9 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 							>
 								<div className='flex flex-wrap items-center gap-y-4'>
 									<div
-										className={`font-medium items-center transition-all focus:outline-none inline-flex bg-dark-fill-3 hover:bg-dark-fill-2 relative rounded-lg px-4 py-1 cursor-pointer whitespace-nowrap
+										className={`font-medium items-center transition-all focus:outline-none inline-flex relative rounded-lg px-4 py-1 cursor-pointer whitespace-nowrap
 										${activeTestCaseId === index ? "text-white" : "text-gray-500"}
+										${runned ? (runOutput[index].isAccept ? "bg-green-600":"bg-red-600"):"bg-gray-100"}
 									`}
 									>
 										Case {index + 1}
@@ -145,10 +190,14 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 						<div className='w-full cursor-text rounded-lg border px-3 py-[10px] bg-dark-fill-3 border-transparent text-white mt-2'>
 							{problem.example[activeTestCaseId].outputText}
 						</div>
+						{runned && <p className='text-sm font-medium mt-4 text-white'>Your Output:</p>}
+						{runned && <div className='w-full cursor-text rounded-lg border px-3 py-[10px] bg-dark-fill-3 border-transparent text-white mt-2'>
+							{runOutput[activeTestCaseId].data.actualOutput}
+						</div>}
 					</div>
 				</div>
 			</Split>
-			<EditorFooter handleSubmit={handleSubmit} />
+			<EditorFooter handleSubmit={handleSubmit} handleRun={handleRun} />
 			{/* <EditorFooter/> */}
 		</div>
 	);
