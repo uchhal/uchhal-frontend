@@ -7,9 +7,10 @@ import Confetti from "react-confetti";
 import useWindowSize from "@/hooks/useWindowSize";
 
 type WorkspaceProps = {
+	problem:any;
 };
 
-const Workspace = ({ problem }) => {
+const Workspace:React.FC<WorkspaceProps> = ({ problem }) => {
 // const Workspace = () => {
 	const { width, height } = useWindowSize();
 	const [success, setSuccess] = useState(false);
