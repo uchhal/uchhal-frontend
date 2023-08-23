@@ -1,9 +1,11 @@
 
 type Changingcardprops = {
-	question: Question;
+	question: any;
     total:number;
     _next: () => void;
     _prev: () => void;
+    _term: number;
+    _change: React.Dispatch<React.SetStateAction<number>>;
 };
 
 type Question={
@@ -14,7 +16,7 @@ type Question={
     correctAnswer:number
 }
 
-const changingcard: React.FC<Changingcardprops> = ({question, total, _next, _prev}) => {
+const changingcard: React.FC<Changingcardprops> = ({question, total, _next, _prev, _term, _change}) => {
     return (
         <div className="min-h-screen flex items-center justify-center">
       {/* <Modal /> */}
@@ -22,21 +24,25 @@ const changingcard: React.FC<Changingcardprops> = ({question, total, _next, _pre
         <p className="text-right pb-2 text-green-600">
           Number:{" "}
           <span>
-            {question.id}/{total}
+            {_term}/{total}
           </span>
         </p>
         <div className="mt-3">
           <p
             className="text-center font-medium text-2xl lg:text-3xl leading-loose"
             // dangerouslySetInnerHTML={{ __html: question }}
-          >{question.discription}</p>
+          >{question.explanation}</p>
           <div className="grid grid-cols-1 my-5 space-y-2 place-content-center">
             {question.options.map((option, index) => {
               return (
                 <button
-                  onClick={_handleansered}
+                  onClick={() => (
+                    sessionStorage.setItem(`answer-${_term}`, String(index)),
+                    sessionStorage.setItem(`state-${_term}`, "2"),
+                    _change((prev) => (prev+1))
+                  )}
                   key={index}
-                  className="bg-blue-500 w-4/5 rounded-lg mx-auto text-white p-2 hover:bg-blue-400 active:bg-green-700 focus:outline-none focus:ring focus:ring-violet-300"
+                  className={` ${(sessionStorage.getItem(`answer-${_term}`) == String(index))?"bg-green-500 ring-violet-300":"bg-blue-500"}  w-4/5 rounded-lg mx-auto text-white p-2`}
                 //   dangerouslySetInnerHTML={{
                 //     __html: answer,
                 //   }}
