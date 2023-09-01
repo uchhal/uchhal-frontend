@@ -7,7 +7,7 @@ const SubjectCard = () => {
       id="subjectCardHome"
     >
       <a href="#">
-        <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+        <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white border-gray-200">
           Aptitude Test
         </h5>
       </a>
