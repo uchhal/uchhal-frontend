@@ -7,7 +7,7 @@ const ContactUs = () => {
     <div>
       ContactUs
       <div className="flex justify-center items-center ">
-        <DetailForm />
+        <Form />
       </div>
     </div>
   );
