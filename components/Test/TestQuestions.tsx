@@ -49,7 +49,7 @@ function TestQuestions() {
             ))}
           {codingProblems &&
             codingProblems.map((problem, idx) => (
-              <CodingRedirect path={problem} />
+              <CodingRedirect path={problem} id = {uid} />
             ))}
         </tbody>
       </table>

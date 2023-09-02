@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 function McqRadioList({ problem, onAnswerChange }) {
+  const [isChecked, setIsChecked] = useState(false);
   const handleCodingAnswer = (event) => {
     const answer = event.target.value;
+    localStorage.setItem(problem._id, JSON.stringify(answer))
     onAnswerChange(problem._id, answer);
   };
 
@@ -22,9 +24,13 @@ function McqRadioList({ problem, onAnswerChange }) {
                   id={opt._id}
                   type="radio"
                   value={index}
+                  // defaultChecked ={localStorage.getItem(problem._id) === index.toString()}          
+                  
                   onChange={handleCodingAnswer}
                   name={problem.title}
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                  // checked = {localStorage.getItem(opt._id)== (index) ? true: true}
+                  checked = {localStorage.getItem(problem._id) == index.toString()} 
                 />
                 <label
                   htmlFor={opt._id}

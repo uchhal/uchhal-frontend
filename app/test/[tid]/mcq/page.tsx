@@ -23,18 +23,16 @@ function MCQTest() {
   }, []);
   const [codingAnswers, setCodingAnswers] = useState([]); // Store coding answers
 
-  const handleCodingAnswerChange = (questionId, answer) => {
+  const handleCodingAnswerChange = (questionId: string, answer: string) => {
     // Update the codingAnswers state based on the questionId
+    localStorage.setItem(`${questionId}`, JSON.stringify(answer));
     setCodingAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [questionId]: answer,
+
+      [questionId]: localStorage.getItem(questionId),
     }));
   };
 
-  const handleCodingSubmit = () => {
-    console.log(codingAnswers); // This will have the coding answers for each question
-    // Send codingAnswers to the server using axios or any other method
-  };
   return (
     <div className="mt-5 ml-10">
       {question &&

@@ -1,15 +1,15 @@
-'use client';
+"use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Workspace from "@/components/Workspace/Workspace";
 import Link from "next/link";
 
 type McqCardprops = {
-    path:string
-}
+  path: string;
+};
 
-const McqCard:React.FC<McqCardprops> = ({path}) => {
-    const title = path.replace(/ /g,"-");
+const McqCard: React.FC<McqCardprops> = ({ path, id }) => {
+  const title = path.replace(/ /g, "-");
 
   return (
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -22,12 +22,13 @@ const McqCard:React.FC<McqCardprops> = ({path}) => {
       </th>
       <td className="px-6 py-4 capitalize">Coding</td>
       <td className="px-6 py-4">
-      <Link
-										className='hover:text-blue-600 cursor-pointer'
-										href={`TestCoding/${title}`}
-									>
-										Modify
-									</Link>
+        <Link
+          className="hover:text-blue-600 cursor-pointer"
+          href={`${id}/TestCoding/${title}`}
+          // as= {`${id}/TestCoding/`}
+        >
+          Modify
+        </Link>
       </td>
     </tr>
   );
@@ -46,7 +47,7 @@ export default McqCard;
 // 			console.log("response: ", response);
 // 			console.log(response.data);
 // 			setProblem(response.data.data);
-			
+
 // 		} catch (error: any) {
 // 			// toast.error(error.message, { position: "top-center", autoClose: 3000, theme: "dark" });
 // 			// seterror(error.messsage);
