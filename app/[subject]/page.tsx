@@ -7,16 +7,14 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-
-
 const Subject = () => {
   const params = useParams();
-	const subject = params.subject;
-	console.log(subject);
+  const subject = params.subject;
+  console.log(subject);
 
   const subjecttopics = useGetSubjectTopics(subject);
-	console.log(subjecttopics);
-
+  console.log(subjecttopics);
+  sessionStorage.clear();
 
   return (
     <>
@@ -25,7 +23,7 @@ const Subject = () => {
       {subjecttopics && (<div id="subjectListHome" className="p-4 border-2 rounded-lg ">
         {subjecttopics.map((topicname:string, index:number) => {
           return (
-            <TopicCard topicname={topicname}/>
+            <TopicCard topicname={topicname} subject={String(subject)}/>
           );
         })}
       </div>)}
@@ -33,7 +31,7 @@ const Subject = () => {
 	  <Link
                 href={`/quiz/${subject}`}
               >
-	  	<TopicCard topicname={`take a ${subject} test`}/>
+	  	<div>{`take a ${subject} test`}</div>
 		</Link>
 	  </div>
     </>
@@ -43,27 +41,27 @@ const Subject = () => {
 export default Subject;
 
 function useGetSubjectTopics(subjectname: string) {
-	const [topics, setTopics] = useState();
+  const [topics, setTopics] = useState();
 
-	useEffect(() => {
-		const getProblems = async () => {
+  useEffect(() => {
+    const getProblems = async () => {
+      try {
+        // const data = { subject:subjectname };
+        const response = await axios.post("http://localhost:8082/mcq/topics", {
+          subject: subjectname,
+        });
+        console.log("response: ", response);
+        console.log(subjectname);
 
-		try {
-      // const data = { subject:subjectname };
-			const response = await axios.post('http://localhost:8082/mcq/topics', { subject:subjectname });
-			console.log("response: ", response);
-      console.log(subjectname);
-      
-			console.log(response.data);
-			setTopics(response.data.data);
-			
-		} catch (error: any) {
-			// toast.error(error.message, { position: "top-center", autoClose: 3000, theme: "dark" });
-			// seterror(error.messsage);
-		}
-		};
+        console.log(response.data);
+        setTopics(response.data.data);
+      } catch (error: any) {
+        // toast.error(error.message, { position: "top-center", autoClose: 3000, theme: "dark" });
+        // seterror(error.messsage);
+      }
+    };
 
-		getProblems();
-	}, []);
-	return topics;
+    getProblems();
+  }, []);
+  return topics;
 }
