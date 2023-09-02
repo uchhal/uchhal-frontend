@@ -19,7 +19,7 @@ function AccordionItem({ title, content, isChecked, answer }) {
           aria-expanded={isOpen}
           aria-controls={title}
           onClick={toggleAccordion}
-          disabled={!isChecked} 
+          disabled={!isChecked}
         >
           <span className="flex items-center">
             <svg

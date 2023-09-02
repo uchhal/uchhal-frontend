@@ -1,15 +1,22 @@
 "use client";
-import McqEnd from "@/components/Test/McqEnd";
 import McqTopicCard from "@/components/Test/McqTopicCard";
 import axios from "axios";
+import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 function MCQTopic() {
+  const params = useParams();
+  const subject = params.subject;
+  const topicparam = params.topic;
+  const topic = topicparam.replace(/-/g, " ");
   const [question, setQuestion] = useState([]);
   useEffect(() => {
     const getProblems = async () => {
       try {
-        const response = await axios.get("http://localhost:8082/mcq/");
+        const response = await axios.post(
+          `http://localhost:8082/mcq/fetch-topic`,
+          { subject: subject, category: topic }
+        );
         console.log("response: ", response);
         console.log(response.data);
         setQuestion(response.data.data);
@@ -43,7 +50,6 @@ function MCQTopic() {
             onAnswerChange={handleCodingAnswerChange}
           />
         ))}
-      <McqEnd codingAnswers={codingAnswers} />
     </div>
   );
 }
