@@ -70,7 +70,6 @@ export const subject_details: SubjectDetails[] = [
     desc:"here is the description about Verbal Ability"
   },
 ];
-
 export const mcq = [
   {
     id: 1,

@@ -122,7 +122,7 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 			}
 		}
 	};
-
+  
 	useEffect(() => {
 		// if (user) {
 		// 	setUserCode(code ? JSON.parse(code) : problem.starterCode);

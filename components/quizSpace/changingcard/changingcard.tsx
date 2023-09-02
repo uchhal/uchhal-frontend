@@ -42,6 +42,7 @@ const changingcard: React.FC<Changingcardprops> = ({
           </p>
           <div className="grid grid-cols-1 my-5 space-y-2 place-content-center">
             {question.options.map((option:any, index:number) => {
+
               return (
                 <button
                   onClick={() => (
