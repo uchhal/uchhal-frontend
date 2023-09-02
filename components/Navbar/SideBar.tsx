@@ -148,7 +148,7 @@ const SideBar = () => {
           <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
             <li>
               <Link
-                href="#"
+                href="/quiz/arithmatic"
                 className="flex items-center p-2 transition duration-75 rounded-lg hover:bg-gray-700 text-white group"
               >
                 <span className="ml-4">Take Aptitude Test</span>

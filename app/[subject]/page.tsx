@@ -3,6 +3,7 @@ import SideBar from "@/components/Navbar/SideBar";
 import Topbar from "@/components/Navbar/Topbar";
 import TopicCard from "@/components/cards/TopicCard";
 import axios from "axios";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -28,6 +29,13 @@ const Subject = () => {
           );
         })}
       </div>)}
+	  <div id="subjectListHome" className="p-4 border-2 rounded-lg ">
+	  <Link
+                href={`/quiz/${subject}`}
+              >
+	  	<TopicCard topicname={`take a ${subject} test`}/>
+		</Link>
+	  </div>
     </>
   );
 };

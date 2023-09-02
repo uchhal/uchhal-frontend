@@ -6,12 +6,15 @@ import axios from "axios";
 import AllQuestionSpace from "./allQuestionSpace/allQuestionSpace";
 import QuizResultPage from "./quizResultPage";
 
+type quizspaceprops = {
+  subject? : string;
+};
 
-
-const quizspace = () => {
+const quizspace:React.FC<quizspaceprops> = ({subject}) => {
   const [change, setChange] = useState(0);
   const [activequestion, setActivequestion] = useState(0);
   const [mcqProblem, setMcqProblem] = useState();
+  const [result, setresult] = useState(false);
 
   const handlenext = async () => {
     setActivequestion((prev) => prev + 1);
@@ -23,12 +26,21 @@ const quizspace = () => {
     if (!(sessionStorage.getItem(`state-${activequestion}`) == "2"))
       sessionStorage.setItem(`state-${activequestion}`, "1");
   };
+  const handleresult = async () => {
+    setresult(!result);
+  };
 
   useEffect(() => {
     const getProblems = async () => {
       try {
-        const response = await axios.get("http://localhost:8082/mcq");
-        setMcqProblem(response.data.data);
+        if(subject == "arithmatic"){
+          const response = await axios.get("http://localhost:8082/mcq/quiz");
+          setMcqProblem(response.data.data);
+        }
+        else{
+          const response = await axios.get("http://localhost:8082/mcq/quiz/"+subject);
+          setMcqProblem(response.data.data);
+        }
         
       } catch (error: any) {
         // toast.error(error.message, { position: "top-center", autoClose: 3000, theme: "dark" });
@@ -44,10 +56,9 @@ const quizspace = () => {
   console.log(mcqProblem);
 
   return (
-    // <>
-    // {mcqProblem && <QuizResultPage questions={mcqProblem}/>}
-    // </>
-    <div className="grid grid-cols-4 gap-4">
+    <>
+    {mcqProblem && result && <QuizResultPage questions={mcqProblem}/>}
+    {!result && <div className="grid grid-cols-4 gap-4">
       <div className="h-auto ml-3 mt-9">
       {mcqProblem && <AllQuestionSpace 
       question={mcqProblem}
@@ -62,12 +73,15 @@ const quizspace = () => {
           total={mcqProblem.length}
           _next={handlenext}
           _prev={handleprev}
+          _result={handleresult}
           _term={activequestion+1}
           _change={setChange}
         />
         </div>
       )}
-    </div>
+    </div>}
+    </>
+    
   );
 };
 
