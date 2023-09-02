@@ -1,24 +1,30 @@
-
 type Changingcardprops = {
-	question: any;
-    total:number;
-    _next: () => void;
-    _prev: () => void;
-    _term: number;
-    _change: React.Dispatch<React.SetStateAction<number>>;
+  question: any;
+  total: number;
+  _next: () => void;
+  _prev: () => void;
+  _term: number;
+  _change: React.Dispatch<React.SetStateAction<number>>;
 };
 
-type Question={
-    id:number,
-    explaination:string,
-    discription:string,
-    options:string[],
-    correctAnswer:number
-}
+type Question = {
+  id: number;
+  explaination: string;
+  discription: string;
+  options: string[];
+  correctAnswer: number;
+};
 
-const changingcard: React.FC<Changingcardprops> = ({question, total, _next, _prev, _term, _change}) => {
-    return (
-        <div className="min-h-screen flex items-center justify-center">
+const changingcard: React.FC<Changingcardprops> = ({
+  question,
+  total,
+  _next,
+  _prev,
+  _term,
+  _change,
+}) => {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
       {/* <Modal /> */}
       <div className="p-3 py-5 md:p-8 bg-white shadow rounded-lg max-w-[800px] w-11/12 min-h-[300px]">
         <p className="text-right pb-2 text-green-600">
@@ -31,50 +37,65 @@ const changingcard: React.FC<Changingcardprops> = ({question, total, _next, _pre
           <p
             className="text-center font-medium text-2xl lg:text-3xl leading-loose"
             // dangerouslySetInnerHTML={{ __html: question }}
-          >{question.explanation}</p>
+          >
+            {question.explanation}
+          </p>
           <div className="grid grid-cols-1 my-5 space-y-2 place-content-center">
-            {question.options.map((option, index) => {
+            {question.options.map((option:any, index:number) => {
+
               return (
                 <button
                   onClick={() => (
                     sessionStorage.setItem(`answer-${_term}`, String(index)),
                     sessionStorage.setItem(`state-${_term}`, "2"),
-                    _change((prev) => (prev+1))
+                    _change((prev) => prev + 1)
                   )}
                   key={index}
-                  className={` ${(sessionStorage.getItem(`answer-${_term}`) == String(index))?"bg-green-500 ring-violet-300":"bg-blue-500"}  w-4/5 rounded-lg mx-auto text-white p-2`}
-                //   dangerouslySetInnerHTML={{
-                //     __html: answer,
-                //   }}
-                    value={index}
-                >{option}</button>
+                  className={` ${
+                    sessionStorage.getItem(`answer-${_term}`) == String(index)
+                      ? "bg-green-500 ring-violet-300"
+                      : "bg-blue-500"
+                  }  w-4/5 rounded-lg mx-auto text-white p-2`}
+                  //   dangerouslySetInnerHTML={{
+                  //     __html: answer,
+                  //   }}
+                  value={index}
+                >
+                  {option.option}
+                </button>
               );
             })}
           </div>
         </div>
         <div className="flex space-x-20 justify-center pt-4">
-        {question.id > 1 && <button
-            onClick={_prev}
-            className="py-2 px-5 text-medium flex rounded-lg text-white bg-yellow-600 hover:bg-green-700"
-          >
-            Previous
-          </button>}
-          {question.id < total && <button
-            onClick={_next}
-            className="py-2 px-7 text-medium flex rounded-lg text-white bg-yellow-600 hover:bg-green-700"
-          >
-            Next
-          </button>}
-          {question.id == total && <button
-            onClick={_next}
-            className="py-2 px-7 text-medium flex rounded-lg text-white bg-yellow-600 hover:bg-green-700"
-          >
-            submit
-          </button>}
+          {_term > 1 && (
+            <button
+              onClick={_prev}
+              className="py-2 px-5 text-medium flex rounded-lg text-white bg-yellow-600 hover:bg-green-700"
+            >
+              Previous
+            </button>
+          )}
+          {_term < total && (
+            <button
+              onClick={_next}
+              className="py-2 px-7 text-medium flex rounded-lg text-white bg-yellow-600 hover:bg-green-700"
+            >
+              Next
+            </button>
+          )}
+          {_term == total && (
+            <button
+              onClick={_next}
+              className="py-2 px-7 text-medium flex rounded-lg text-white bg-yellow-600 hover:bg-green-700"
+            >
+              submit
+            </button>
+          )}
         </div>
       </div>
     </div>
-    );
-}
+  );
+};
 
 export default changingcard;

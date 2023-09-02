@@ -1,4 +1,5 @@
 import { Problem } from "../types/problem";
+import {SubjectDetails} from "../types/problem";
 import { jumpGame } from "./jump-game";
 import { reverseLinkedList } from "./reverse-linked-list";
 
@@ -27,6 +28,48 @@ export const problems: Problem[] = [
   // "jump-game": jumpGame,
 ];
 
+export const subject_details: SubjectDetails[] = [
+  {
+    name: "cpp",
+    displayname: "C++ Language",
+    desc:"here is the description about c++ language"
+  },
+  {
+    name: "cprogramming",
+    displayname: "C Programming",
+    desc:"here is the description about c Programming"
+  },
+  {
+    name: "arithmaticaptitude",
+    displayname: "Arithmatic Aptitude",
+    desc:"here is the description about Arithmatic Aptitude"
+  },
+  {
+    name: "datainterpretation",
+    displayname: "Data Interpretation",
+    desc:"here is the description about data interpretation"
+  },
+  {
+    name: "logicalreasoning",
+    displayname: "Logical Reasoning",
+    desc:"here is the description about logical reasoning"
+  },
+  {
+    name: "nonverbalreasoning",
+    displayname: "Non Verbal Reasoning",
+    desc:"here is the description about Non Verbal Reasoning"
+  },
+  {
+    name: "verbalreasoning",
+    displayname: "Non Verbal Reasoning",
+    desc:"here is the description about Verbal Reasoning"
+  },
+  {
+    name: "verbalability",
+    displayname: "Verbal Ability",
+    desc:"here is the description about Verbal Ability"
+  },
+];
 export const mcq = [
   {
     id: 1,
