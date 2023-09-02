@@ -11,10 +11,6 @@ type ProblemDescriptionProps = {
 };
 
 const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem, _solved }) => {
-// const ProblemDescription= () => {
-	// const [user] = useAuthState(auth);
-	// const { currentProblem, loading, problemDifficultyClass, setCurrentProblem } = useGetCurrentProblem('jump-game');
-	// const { liked, disliked, solved, setData, starred } = useGetUsersDataOnProblem(problem.id);
 	const [updating, setUpdating] = useState(false);
 	console.log(problem);
 	
@@ -79,7 +75,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem, _solve
 
 						{/* Examples */}
 						{problem && (<div className='mt-4'>
-							{problem.example.map((example1, index) => (
+							{problem.example.map((example1:any, index:number) => (
 								<div key={example1.id}>
 									<p className='font-medium text-white '>Example {index + 1}: </p>
 									{/* {example.img && <img src={example.img} alt='' className='mt-3' />} */}

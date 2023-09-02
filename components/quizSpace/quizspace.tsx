@@ -3,46 +3,86 @@ import { mcq } from "@/utils/problems/page";
 import { useEffect, useState } from "react";
 import Changingcard from "./changingcard/changingcard";
 import axios from "axios";
+import AllQuestionSpace from "./allQuestionSpace/allQuestionSpace";
+import QuizResultPage from "./quizResultPage";
 
-const quizspace = () =>{
-    const [change, setChange] = useState(0);
-    const [activequestion, setActivequestion] = useState(0);
-    const [mcqProblem, setMcqProblem] = useState([]);
+type quizspaceprops = {
+  subject? : string;
+};
 
-    const handlenext = async () => {
-        setActivequestion((prev) => (prev+1))
-        if(!(sessionStorage.getItem(`state-${activequestion}`) == "2"))
-            sessionStorage.setItem(`state-${activequestion}`, "1");
-    }
-    const handleprev = async () => {
-        setActivequestion((prev) => (prev-1))
-        if(!(sessionStorage.getItem(`state-${activequestion}`) == "2"))
-            sessionStorage.setItem(`state-${activequestion}`, "1");
-    }
+const quizspace:React.FC<quizspaceprops> = ({subject}) => {
+  const [change, setChange] = useState(0);
+  const [activequestion, setActivequestion] = useState(0);
+  const [mcqProblem, setMcqProblem] = useState();
+  const [result, setresult] = useState(false);
 
-    useEffect(()=>{
-        const getProblems = async () => {
-            try {
-              const response = await axios.get("http://localhost:8082/mcq/quiz");
-              setMcqProblem(response.data);
-            } catch (error: any) {
-              // toast.error(error.message, { position: "top-center", autoClose: 3000, theme: "dark" });
-              // seterror(error.messsage);
-            }
-          };
-      
-          getProblems();
-    },[]);
+  const handlenext = async () => {
+    setActivequestion((prev) => prev + 1);
+    if (!(sessionStorage.getItem(`state-${activequestion}`) == "2"))
+      sessionStorage.setItem(`state-${activequestion}`, "1");
+  };
+  const handleprev = async () => {
+    setActivequestion((prev) => prev - 1);
+    if (!(sessionStorage.getItem(`state-${activequestion}`) == "2"))
+      sessionStorage.setItem(`state-${activequestion}`, "1");
+  };
+  const handleresult = async () => {
+    setresult(!result);
+  };
 
-    useEffect(()=>{
+  useEffect(() => {
+    const getProblems = async () => {
+      try {
+        if(subject == "arithmatic"){
+          const response = await axios.get("http://localhost:8082/mcq/quiz");
+          setMcqProblem(response.data.data);
+        }
+        else{
+          const response = await axios.get("http://localhost:8082/mcq/quiz/"+subject);
+          setMcqProblem(response.data.data);
+        }
+        
+      } catch (error: any) {
+        // toast.error(error.message, { position: "top-center", autoClose: 3000, theme: "dark" });
+        // seterror(error.messsage);
+      }
+    };
 
-    },[change,activequestion]);
+    getProblems();
+  }, []);
 
+  useEffect(() => {}, [change, activequestion]);
 
-    return (
-            <Changingcard question={mcqProblem[activequestion]} total={mcq.length} _next={handlenext} _prev={handleprev} _term={activequestion} _change={setChange}/>
-            // <div>ram ram</div>
-    );
-}
+  console.log(mcqProblem);
+
+  return (
+    <>
+    {mcqProblem && result && <QuizResultPage questions={mcqProblem}/>}
+    {!result && <div className="grid grid-cols-4 gap-4">
+      <div className="h-auto ml-3 mt-9">
+      {mcqProblem && <AllQuestionSpace 
+      question={mcqProblem}
+      total={mcqProblem.length}
+      _setManually={setActivequestion}
+      _term={activequestion+1}/>}
+      </div>
+      {mcqProblem && (
+        <div className="col-span-3">
+        <Changingcard
+          question={mcqProblem[activequestion]}
+          total={mcqProblem.length}
+          _next={handlenext}
+          _prev={handleprev}
+          _result={handleresult}
+          _term={activequestion+1}
+          _change={setChange}
+        />
+        </div>
+      )}
+    </div>}
+    </>
+    
+  );
+};
 
 export default quizspace;
