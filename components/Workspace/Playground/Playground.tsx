@@ -53,11 +53,15 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 			});
 			return;
 		}
+		let examples = []
+			for(const exa of problem.testCase){
+				examples.push({input:exa.inputText, expectedOutput:exa.outputText});
+			}
 		try {
-			const response = await axios.post('http://localhost:8082/compiler', {codeCpp:userCode, problemId: problem.title.replace(/ /g, "-")});
+			const response = await axios.post('http://localhost:8082/compiler/submit', {codeCpp:userCode, problemId: problem.title.replace(/ /g, "-"), examples:examples});
 			console.log(response);
 			// changeInnerContent();
-			setSubmitted(true);
+			// setSubmitted(true);
 			
 		} catch (error: any) {
 			console.log(error.message);
@@ -90,7 +94,7 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 		}
 		try { 
 			let examples = []
-			for (const exa of problem.example){
+			for(const exa of problem.example){
 				examples.push({input:exa.inputText, expectedOutput:exa.outputText});
 			}
 			const response = await axios.post('http://localhost:8082/compiler', {codeCpp:userCode, problemId: problem.title.replace(/ /g, "-"), examples:examples});
@@ -118,7 +122,7 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 			}
 		}
 	};
-
+  
 	useEffect(() => {
 		// if (user) {
 		// 	setUserCode(code ? JSON.parse(code) : problem.starterCode);
