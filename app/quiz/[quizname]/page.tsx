@@ -1,8 +1,14 @@
+'use client';
 import Quizspace from "@/components/quizSpace/quizspace"
+import { useParams } from "next/navigation";
 
 const quizpage = () => {
+    const params = useParams();
+	const uid = String(params.quizname);
+	console.log(uid);
+
     return(
-        <Quizspace />
+        <Quizspace subject = {uid}/>
     );
 }
 

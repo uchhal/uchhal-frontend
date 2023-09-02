@@ -2,6 +2,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 type TopicCardProps = {
 	topicname:string,
+  subject:string
 };
 
 const TopicCard:React.FC<TopicCardProps> = ({topicname, subject}) => {

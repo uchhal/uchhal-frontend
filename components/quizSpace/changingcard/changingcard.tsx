@@ -3,6 +3,7 @@ type Changingcardprops = {
   total: number;
   _next: () => void;
   _prev: () => void;
+  _result: () => void;
   _term: number;
   _change: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -10,9 +11,9 @@ type Changingcardprops = {
 type Question = {
   id: number;
   explaination: string;
-  discription: string;
+  description: string;
   options: string[];
-  correctAnswer: number;
+  correct: number;
 };
 
 const changingcard: React.FC<Changingcardprops> = ({
@@ -20,6 +21,7 @@ const changingcard: React.FC<Changingcardprops> = ({
   total,
   _next,
   _prev,
+  _result,
   _term,
   _change,
 }) => {
@@ -38,11 +40,10 @@ const changingcard: React.FC<Changingcardprops> = ({
             className="text-center font-medium text-2xl lg:text-3xl leading-loose"
             // dangerouslySetInnerHTML={{ __html: question }}
           >
-            {question.explanation}
+            {question.description}
           </p>
           <div className="grid grid-cols-1 my-5 space-y-2 place-content-center">
-            {question.options.map((option:any, index:number) => {
-
+            {question.options.map((option:string, index:number) => {
               return (
                 <button
                   onClick={() => (
@@ -61,7 +62,7 @@ const changingcard: React.FC<Changingcardprops> = ({
                   //   }}
                   value={index}
                 >
-                  {option.option}
+                  {option}
                 </button>
               );
             })}
@@ -86,7 +87,7 @@ const changingcard: React.FC<Changingcardprops> = ({
           )}
           {_term == total && (
             <button
-              onClick={_next}
+              onClick={_result}
               className="py-2 px-7 text-medium flex rounded-lg text-white bg-yellow-600 hover:bg-green-700"
             >
               submit

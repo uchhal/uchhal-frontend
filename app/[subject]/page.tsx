@@ -3,6 +3,7 @@ import SideBar from "@/components/Navbar/SideBar";
 import Topbar from "@/components/Navbar/Topbar";
 import TopicCard from "@/components/cards/TopicCard";
 import axios from "axios";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -13,18 +14,26 @@ const Subject = () => {
 
   const subjecttopics = useGetSubjectTopics(subject);
   console.log(subjecttopics);
+  sessionStorage.clear();
 
   return (
     <>
       <Topbar />
-      <SideBar />
-      {subjecttopics && (
-        <div id="subjectListHome" className="p-4 border-2 rounded-lg ">
-          {subjecttopics.map((topicname: string, index: number) => {
-            return <TopicCard topicname={topicname} subject={subject} />;
-          })}
-        </div>
-      )}
+      <SideBar/>
+      {subjecttopics && (<div id="subjectListHome" className="p-4 border-2 rounded-lg ">
+        {subjecttopics.map((topicname:string, index:number) => {
+          return (
+            <TopicCard topicname={topicname} subject={String(subject)}/>
+          );
+        })}
+      </div>)}
+	  <div id="subjectListHome" className="p-4 border-2 rounded-lg ">
+	  <Link
+                href={`/quiz/${subject}`}
+              >
+	  	<div>{`take a ${subject} test`}</div>
+		</Link>
+	  </div>
     </>
   );
 };
