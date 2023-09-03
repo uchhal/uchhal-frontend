@@ -1,6 +1,7 @@
 "use client";
 import McqEnd from "@/components/Test/McqEnd";
 import McqRadioList from "@/components/Test/McqRadioList";
+import { AesDecryptUtil } from "@/utils/AesDecryptUtil";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -10,9 +11,10 @@ function MCQTest() {
     const getProblems = async () => {
       try {
         const response = await axios.get("http://localhost:8082/mcq/");
-        console.log("response: ", response);
-        console.log(response.data);
-        setQuestion(response.data.data);
+        let { data } = response.data;
+        data = await AesDecryptUtil.aesDecrypt(data); // Decrypted data
+        console.log("response: ", data);
+        setQuestion(data);
       } catch (error: any) {
         // toast.error(error.message, { position: "top-center", autoClose: 3000, theme: "dark" });
         // seterror(error.messsage);

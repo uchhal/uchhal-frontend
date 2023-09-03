@@ -21,22 +21,22 @@ function McqRadioList({ problem, onAnswerChange }) {
             >
               <div className="flex items-center pl-3">
                 <input
-                  id={opt._id}
+                  id={opt}
                   type="radio"
                   value={index}
                   // defaultChecked ={localStorage.getItem(problem._id) === index.toString()}          
                   
                   onChange={handleCodingAnswer}
-                  name={problem.title}
+                  name={problem.description}
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                   // checked = {localStorage.getItem(opt._id)== (index) ? true: true}
-                  checked = {localStorage.getItem(problem._id) == index.toString()} 
+                  // checked = {localStorage.getItem(problem._id) == index.toString()} 
                 />
                 <label
-                  htmlFor={opt._id}
+                  htmlFor={opt}
                   className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                 >
-                  {opt.option}
+                  {opt}
                 </label>
               </div>
             </li>

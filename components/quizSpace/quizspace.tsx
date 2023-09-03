@@ -5,12 +5,13 @@ import Changingcard from "./changingcard/changingcard";
 import axios from "axios";
 import AllQuestionSpace from "./allQuestionSpace/allQuestionSpace";
 import QuizResultPage from "./quizResultPage";
+import { AesDecryptUtil } from "@/utils/AesDecryptUtil";
 
 type quizspaceprops = {
-  subject? : string;
+  subject?: string;
 };
 
-const quizspace:React.FC<quizspaceprops> = ({subject}) => {
+const quizspace: React.FC<quizspaceprops> = ({ subject }) => {
   const [change, setChange] = useState(0);
   const [activequestion, setActivequestion] = useState(0);
   const [mcqProblem, setMcqProblem] = useState();
@@ -33,15 +34,18 @@ const quizspace:React.FC<quizspaceprops> = ({subject}) => {
   useEffect(() => {
     const getProblems = async () => {
       try {
-        if(subject == "arithmatic"){
-          const response = await axios.get("http://localhost:8082/mcq/quiz");
-          setMcqProblem(response.data.data);
+        let response;
+        if (subject == "arithmatic") {
+          response = await axios.get("http://localhost:8082/mcq/quiz");
+        } else {
+          response = await axios.get(
+            "http://localhost:8082/mcq/quiz/" + subject
+          );
         }
-        else{
-          const response = await axios.get("http://localhost:8082/mcq/quiz/"+subject);
-          setMcqProblem(response.data.data);
-        }
-        
+        let { data } = response.data;
+        data = await AesDecryptUtil.aesDecrypt(data); // Decrypted data
+        console.log("response: ", data);
+        setMcqProblem(data);
       } catch (error: any) {
         // toast.error(error.message, { position: "top-center", autoClose: 3000, theme: "dark" });
         // seterror(error.messsage);
@@ -57,31 +61,35 @@ const quizspace:React.FC<quizspaceprops> = ({subject}) => {
 
   return (
     <>
-    {mcqProblem && result && <QuizResultPage questions={mcqProblem}/>}
-    {!result && <div className="grid grid-cols-4 gap-4">
-      <div className="h-auto ml-3 mt-9">
-      {mcqProblem && <AllQuestionSpace 
-      question={mcqProblem}
-      total={mcqProblem.length}
-      _setManually={setActivequestion}
-      _term={activequestion+1}/>}
-      </div>
-      {mcqProblem && (
-        <div className="col-span-3">
-        <Changingcard
-          question={mcqProblem[activequestion]}
-          total={mcqProblem.length}
-          _next={handlenext}
-          _prev={handleprev}
-          _result={handleresult}
-          _term={activequestion+1}
-          _change={setChange}
-        />
+      {mcqProblem && result && <QuizResultPage questions={mcqProblem} />}
+      {!result && (
+        <div className="grid grid-cols-4 gap-4">
+          <div className="h-auto ml-3 mt-9">
+            {mcqProblem && (
+              <AllQuestionSpace
+                question={mcqProblem}
+                total={mcqProblem.length}
+                _setManually={setActivequestion}
+                _term={activequestion + 1}
+              />
+            )}
+          </div>
+          {mcqProblem && (
+            <div className="col-span-3">
+              <Changingcard
+                question={mcqProblem[activequestion]}
+                total={mcqProblem.length}
+                _next={handlenext}
+                _prev={handleprev}
+                _result={handleresult}
+                _term={activequestion + 1}
+                _change={setChange}
+              />
+            </div>
+          )}
         </div>
       )}
-    </div>}
     </>
-    
   );
 };
 
