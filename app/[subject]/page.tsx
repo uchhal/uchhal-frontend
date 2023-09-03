@@ -15,7 +15,7 @@ const Subject = () => {
 
   const subjecttopics = useGetSubjectTopics(subject);
   console.log(subjecttopics);
-  sessionStorage.clear();
+  // sessionStorage.clear();
 
   return (
     <>
@@ -43,6 +43,8 @@ export default Subject;
 
 function useGetSubjectTopics(subjectname: string) {
   const [topics, setTopics] = useState();
+  console.log(subjectname);
+  
 
   useEffect(() => {
     const getProblems = async () => {
@@ -51,7 +53,6 @@ function useGetSubjectTopics(subjectname: string) {
         const response = await axios.post("http://localhost:8082/mcq/topics", {
           subject: subjectname,
         });
-        
         let { data } = response.data;
         data = await AesDecryptUtil.aesDecrypt(data); // Decrypted data
         console.log("response: ", data);
