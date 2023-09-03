@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 function MCQTopic() {
   const params = useParams();
   const subject = params.subject;
-  const topicparam = params.topic;
+  const topicparam = String(params.topic);
   const topic = topicparam.replace(/-/g, " ");
   const [question, setQuestion] = useState([]);
   useEffect(() => {

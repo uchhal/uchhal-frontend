@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 
-function McqRadioList({ problem, onAnswerChange }) {
+type mcqradiolistprops = {
+  problem:any;
+  onAnswerChange:any;
+}
+
+const McqRadioList:React.FC<mcqradiolistprops> = ({ problem, onAnswerChange }) => {
   const [isChecked, setIsChecked] = useState(false);
-  const handleCodingAnswer = (event) => {
+  const handleCodingAnswer = (event:any) => {
     const answer = event.target.value;
     localStorage.setItem(problem._id, JSON.stringify(answer))
     onAnswerChange(problem._id, answer);
@@ -14,7 +19,7 @@ function McqRadioList({ problem, onAnswerChange }) {
       <h4 className="mb-2">{problem.explanation}</h4>
       <ul className="w-[80%] text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
         {problem &&
-          problem.options.map((opt, index) => (
+          problem.options.map((opt:any, index:number) => (
             <li
               className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
               key={index}

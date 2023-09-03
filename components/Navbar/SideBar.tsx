@@ -9,7 +9,7 @@ import { authModalState } from "@/atoms/authModalAtom";
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user-info"));
+  const user = JSON.parse(String(localStorage.getItem("user-info")));
   const setAuthModalState = useSetRecoilState(authModalState);
 
   const toggleSidebar = () => {
@@ -133,7 +133,7 @@ const SideBar = () => {
             {subject_details.map(
               (subjectdata: SubjectDetails, index: number) => {
                 return (
-                  <li>
+                  <li key={index}>
                     <Link
                       href={`/${subjectdata.name}`}
                       className="flex items-center p-2 transition duration-75 rounded-lg hover:bg-gray-700 text-white group"

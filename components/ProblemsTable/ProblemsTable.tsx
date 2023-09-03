@@ -38,7 +38,7 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({ setLoadingProblems }) => 
 	return (
 		<>
 			<tbody className='text-black'>
-				{problems1 ? (problems1.map((problem:any, idx:any) => {
+				{problems1 ? ((problems1 as any).map((problem:any, idx:any) => {
 					const difficulyColor =
 						problem.difficulty === "easy"
 							? "text-green-800"

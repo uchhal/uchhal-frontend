@@ -170,7 +170,7 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 									<div
 										className={`font-medium items-center transition-all focus:outline-none inline-flex relative rounded-lg px-4 py-1 cursor-pointer whitespace-nowrap
 										${activeTestCaseId === index ? "text-white" : "text-gray-500"}
-										${runned ? (runOutput[index].isAccept ? "bg-green-600":"bg-red-600"):"bg-gray-100"}
+										${runned ? (runOutput[index]['isAccept'] ? "bg-green-600":"bg-red-600"):"bg-gray-100"}
 									`}
 									>
 										Case {index + 1}
@@ -191,7 +191,7 @@ const Playground: React.FC<PlaygroundProps> = ({ problem, setSuccess, setSolved 
 						</div>
 						{runned && <p className='text-sm font-medium mt-4 text-white'>Your Output:</p>}
 						{runned && <div className='w-full cursor-text rounded-lg border px-3 py-[10px] bg-dark-fill-3 border-transparent text-white mt-2'>
-							{runOutput[activeTestCaseId].data.actualOutput}
+							{(runOutput[activeTestCaseId]['data'] as any).actualOutput}
 						</div>}
 					</div>
 				</div>

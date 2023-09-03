@@ -1,7 +1,5 @@
 import { Problem } from "../types/problem";
 import {SubjectDetails} from "../types/problem";
-import { jumpGame } from "./jump-game";
-import { reverseLinkedList } from "./reverse-linked-list";
 
 // interface ProblemMap {
 // 	[key: string]: Problem;

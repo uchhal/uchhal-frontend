@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-function AccordionItem({ title, content, isChecked, answer }) {
+type toggleaccordionprops = {
+  title:string;
+  content:any;
+  isChecked:any;
+  answer:any;
+}
+
+const AccordionItem:React.FC<toggleaccordionprops> = ({ title, content, isChecked, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleAccordion = () => {
