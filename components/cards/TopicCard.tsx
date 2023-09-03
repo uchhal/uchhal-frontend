@@ -2,10 +2,11 @@ import React from "react";
 import { useRouter } from "next/navigation";
 type TopicCardProps = {
 	topicname:string,
-  subject:string
+  subject:string, 
+  key: number
 };
 
-const TopicCard:React.FC<TopicCardProps> = ({topicname, subject}) => {
+const TopicCard:React.FC<TopicCardProps> = ({topicname, subject, key}) => {
   const router = useRouter();
   const handleCall = async() => {
     const topic = await topicname.replace(/\s/g, '-');

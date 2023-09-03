@@ -5,9 +5,10 @@ import Changingcard from "./changingcard/changingcard";
 import axios from "axios";
 import AllQuestionSpace from "./allQuestionSpace/allQuestionSpace";
 import QuizResultPage from "./quizResultPage";
+import { AesDecryptUtil } from "@/utils/AesDecryptUtil";
 
 type quizspaceprops = {
-  subject? : string;
+  subject?: string;
 };
 
 const QuizSpace:React.FC<quizspaceprops> = ({subject}) => {
@@ -33,15 +34,18 @@ const QuizSpace:React.FC<quizspaceprops> = ({subject}) => {
   useEffect(() => {
     const getProblems = async () => {
       try {
-        if(subject == "arithmatic"){
-          const response = await axios.get("http://localhost:8082/mcq/quiz");
-          setMcqProblem(response.data.data);
+        let response;
+        if (subject == "arithmatic") {
+          response = await axios.get("http://localhost:8082/mcq/quiz");
+        } else {
+          response = await axios.get(
+            "http://localhost:8082/mcq/quiz/" + subject
+          );
         }
-        else{
-          const response = await axios.get("http://localhost:8082/mcq/quiz/"+subject);
-          setMcqProblem(response.data.data);
-        }
-        
+        let { data } = response.data;
+        data = await AesDecryptUtil.aesDecrypt(data); // Decrypted data
+        console.log("response: ", data);
+        setMcqProblem(data);
       } catch (error: any) {
         // toast.error(error.message, { position: "top-center", autoClose: 3000, theme: "dark" });
         // seterror(error.messsage);
@@ -78,10 +82,8 @@ const QuizSpace:React.FC<quizspaceprops> = ({subject}) => {
           _change={setChange}
         />
         </div>
-      )}
-    </div>}
+      )}}
     </>
-    
   );
 };
 
