@@ -10,13 +10,15 @@ import Timer from "../Timer/Timer";
 import { useRouter } from "next/navigation";
 import { problems } from "@/utils/problems/page";
 import { Problem } from "@/utils/types/problem";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 type TopbarProps = {
 	problemPage?: boolean;
 };
 
 const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
-	const user = JSON.parse(String(localStorage.getItem('user-info')));
+	const [user, setuser] = useLocalStorage("user-info", "");
+	// const user = JSON.parse(String(localStorage.getItem('user-info')));
 	console.log('user-info'+user);
 	
 	

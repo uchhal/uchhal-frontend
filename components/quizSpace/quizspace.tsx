@@ -53,7 +53,7 @@ const QuizSpace:React.FC<quizspaceprops> = ({subject}) => {
     };
 
     getProblems();
-  }, []);
+  }, [subject]);
 
   useEffect(() => {}, [change, activequestion]);
 
@@ -82,7 +82,8 @@ const QuizSpace:React.FC<quizspaceprops> = ({subject}) => {
           _change={setChange}
         />
         </div>
-      )}}
+      )}
+      </div>};
     </>
   );
 };

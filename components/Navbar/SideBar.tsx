@@ -6,10 +6,12 @@ import Link from "next/link";
 import { SubjectDetails } from "@/utils/types/problem";
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalAtom";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const user = JSON.parse(String(localStorage.getItem("user-info")));
+  const [user, setuser] = useLocalStorage("user-info", "");
+  // const user = JSON.parse(String(localStorage.getItem("user-info")));
   const setAuthModalState = useSetRecoilState(authModalState);
 
   const toggleSidebar = () => {

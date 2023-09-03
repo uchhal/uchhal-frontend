@@ -63,6 +63,6 @@ function useGetSubjectTopics(subjectname: string) {
     };
 
     getProblems();
-  }, []);
+  }, [subjectname]);
   return topics;
 }
