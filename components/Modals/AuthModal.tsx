@@ -52,7 +52,7 @@ function useCloseModal() {
 		};
 		window.addEventListener("keydown", handleEsc);
 		return () => window.removeEventListener("keydown", handleEsc);
-	}, []);
+	}, [closeModal]);
 
 	return closeModal;
 }

@@ -11,7 +11,7 @@ type quizspaceprops = {
   subject?: string;
 };
 
-const QuizSpace:React.FC<quizspaceprops> = ({subject}) => {
+const QuizSpace: React.FC<quizspaceprops> = ({ subject }) => {
   const [change, setChange] = useState(0);
   const [activequestion, setActivequestion] = useState(0);
   const [mcqProblem, setMcqProblem] = useState();
@@ -53,7 +53,7 @@ const QuizSpace:React.FC<quizspaceprops> = ({subject}) => {
     };
 
     getProblems();
-  }, []);
+  }, [subject]);
 
   useEffect(() => {}, [change, activequestion]);
 
@@ -61,28 +61,34 @@ const QuizSpace:React.FC<quizspaceprops> = ({subject}) => {
 
   return (
     <>
-    {mcqProblem && result && <QuizResultPage questions={mcqProblem}/>}
-    {!result && <div className="grid grid-cols-4 gap-4">
-      <div className="h-auto ml-3 mt-9">
-      {mcqProblem && <AllQuestionSpace 
-      question={mcqProblem}
-      total={(mcqProblem as any).length}
-      _setManually={setActivequestion}
-      _term={activequestion+1}/>}
-      </div>
-      {mcqProblem && (
-        <div className="col-span-3">
-        <Changingcard
-          question={mcqProblem[activequestion]}
-          total={(mcqProblem as any).length}
-          _next={handlenext}
-          _prev={handleprev}
-          _result={handleresult}
-          _term={activequestion+1}
-          _change={setChange}
-        />
+      {mcqProblem && result && <QuizResultPage questions={mcqProblem} />}
+      {!result && (
+        <div className="grid grid-cols-4 gap-4">
+          <div className="h-auto ml-3 mt-9">
+            {mcqProblem && (
+              <AllQuestionSpace
+                question={mcqProblem}
+                total={(mcqProblem as any).length}
+                _setManually={setActivequestion}
+                _term={activequestion + 1}
+              />
+            )}
+          </div>
+          {mcqProblem && (
+            <div className="col-span-3">
+              <Changingcard
+                question={mcqProblem[activequestion]}
+                total={(mcqProblem as any).length}
+                _next={handlenext}
+                _prev={handleprev}
+                _result={handleresult}
+                _term={activequestion + 1}
+                _change={setChange}
+              />
+            </div>
+          )}
         </div>
-      )}}
+      )};
     </>
   );
 };

@@ -29,7 +29,7 @@ function MCQTopic() {
     };
 
     getProblems();
-  }, []);
+  }, [subject, topic]);
   const [codingAnswers, setCodingAnswers] = useState([]); // Store coding answers
 
   const handleCodingAnswerChange = (questionId: string, answer: string) => {
