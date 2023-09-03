@@ -2,6 +2,7 @@
 import SideBar from "@/components/Navbar/SideBar";
 import Topbar from "@/components/Navbar/Topbar";
 import TopicCard from "@/components/cards/TopicCard";
+import { AesDecryptUtil } from "@/utils/AesDecryptUtil";
 import axios from "axios";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -23,9 +24,7 @@ const Subject = () => {
       {subjecttopics && (<div id="subjectListHome" className="p-4 border-2 rounded-lg ">
         {(subjecttopics as any).map((topicname:string, index:number) => {
           return (
-            <div key={index}>
-             <TopicCard topicname={topicname} subject={String(subject)}/>
-            </div>
+             <TopicCard key={index} topicname={topicname} subject={String(subject)}/>
           );
         })}
       </div>)}
@@ -52,11 +51,11 @@ function useGetSubjectTopics(subjectname: string) {
         const response = await axios.post("http://localhost:8082/mcq/topics", {
           subject: subjectname,
         });
-        console.log("response: ", response);
-        console.log(subjectname);
-
-        console.log(response.data);
-        setTopics(response.data.data);
+        
+        let { data } = response.data;
+        data = await AesDecryptUtil.aesDecrypt(data); // Decrypted data
+        console.log("response: ", data);
+        setTopics(data);
       } catch (error: any) {
         // toast.error(error.message, { position: "top-center", autoClose: 3000, theme: "dark" });
         // seterror(error.messsage);

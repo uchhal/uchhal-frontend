@@ -1,5 +1,6 @@
 "use client";
 import McqTopicCard from "@/components/Test/McqTopicCard";
+import { AesDecryptUtil } from "@/utils/AesDecryptUtil";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -17,12 +18,13 @@ function MCQTopic() {
           `http://localhost:8082/mcq/fetch-topic`,
           { subject: subject, category: topic }
         );
-        console.log("response: ", response);
-        console.log(response.data);
-        setQuestion(response.data.data);
+        let { data } = response.data;
+        data = await AesDecryptUtil.aesDecrypt(data); // Decrypted data
+        setQuestion(data);
       } catch (error: any) {
         // toast.error(error.message, { position: "top-center", autoClose: 3000, theme: "dark" });
         // seterror(error.messsage);
+        throw error;
       }
     };
 
