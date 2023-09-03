@@ -1,5 +1,5 @@
 'use client';
-import Quizspace from "@/components/quizSpace/quizspace"
+import Quizspace from "@/components/quizSpace/Quizspace"
 import { useParams } from "next/navigation";
 
 const QuizPage = () => {

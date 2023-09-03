@@ -50,6 +50,6 @@ function useGetoneProblem(uid: string) {
 		};
 
 		getProblems();
-	}, []);
+	}, [uid]);
 	return problem;
 }
