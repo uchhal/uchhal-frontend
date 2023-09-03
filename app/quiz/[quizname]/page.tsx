@@ -2,7 +2,7 @@
 import Quizspace from "@/components/quizSpace/quizspace"
 import { useParams } from "next/navigation";
 
-const quizpage = () => {
+const QuizPage = () => {
     const params = useParams();
 	const uid = String(params.quizname);
 	console.log(uid);
@@ -12,4 +12,4 @@ const quizpage = () => {
     );
 }
 
-export default quizpage;
+export default QuizPage;

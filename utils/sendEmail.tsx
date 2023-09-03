@@ -1,6 +1,6 @@
 import emailjs from "emailjs-com";
 import emailConfigCreds from "@/config/config.json";
-export const sendEmail = (formData) => {
+export const sendEmail = (formData:any) => {
   emailjs
     .send(
       emailConfigCreds.service,

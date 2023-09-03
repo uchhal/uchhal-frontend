@@ -6,7 +6,7 @@ import McqCard from "./McqCard";
 import CodingRedirect from "./CodingRedirect"
 function TestQuestions() {
   const params = useParams();
-  const uid = params.tid;
+  const uid = String(params.tid);
   const [mcqProblems, setMcqProblems] = useState([]);
   const [codingProblems, setCodingProblems] = useState([]);
   useEffect(() => {
@@ -49,7 +49,9 @@ function TestQuestions() {
             ))}
           {codingProblems &&
             codingProblems.map((problem, idx) => (
+              <div key={idx}>
               <CodingRedirect path={problem} id = {uid} />
+              </div>
             ))}
         </tbody>
       </table>

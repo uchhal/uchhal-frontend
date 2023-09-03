@@ -9,11 +9,11 @@ const Form = () => {
     email: "",
     message: "",
   });
-  const handleChange = (event) => {
+  const handleChange = (event:any) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = (e:any) => {
     e.preventDefault();
     sendEmail(formData);
     setFormData({ name: "", email: "", message: "" });
@@ -45,7 +45,6 @@ const Form = () => {
       </div>
       <div className={`${classes.form__group}`}>
         <textarea
-          type="text"
           rows={5}
           name="message"
           value={formData.message}

@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 
 const Subject = () => {
   const params = useParams();
-  const subject = params.subject;
+  const subject = String(params.subject);
   console.log(subject);
 
   const subjecttopics = useGetSubjectTopics(subject);
@@ -21,9 +21,11 @@ const Subject = () => {
       <Topbar />
       <SideBar/>
       {subjecttopics && (<div id="subjectListHome" className="p-4 border-2 rounded-lg ">
-        {subjecttopics.map((topicname:string, index:number) => {
+        {(subjecttopics as any).map((topicname:string, index:number) => {
           return (
-            <TopicCard topicname={topicname} subject={String(subject)}/>
+            <div key={index}>
+             <TopicCard topicname={topicname} subject={String(subject)}/>
+            </div>
           );
         })}
       </div>)}
