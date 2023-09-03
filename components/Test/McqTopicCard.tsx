@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import AccordionItem from "./ToggleAccordion";
 
-function McqTopicCard({ problem, onAnswerChange }) {
+type mcqtopiccardprops = {
+  problem:any;
+  onAnswerChange:any;
+}
+
+const McqTopicCard:React.FC<mcqtopiccardprops> = ({ problem, onAnswerChange }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [explanTab, setExplainTab] = useState(false);
   const [choose, setChoose] = useState(4);
-  const handleCodingAnswer = (event) => {
+  const handleCodingAnswer = (event:any) => {
     const answer = event.target.value;
     const flagAns = answer == problem.correct ? true : false;
     setIsChecked(true);
@@ -19,7 +24,7 @@ function McqTopicCard({ problem, onAnswerChange }) {
       <h4 className="mb-2">{problem.description}</h4>
       <ul className="w-[80%] text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
         {problem &&
-          problem.options.map((opt, index) => (
+          problem.options.map((opt:string, index:number) => (
             <li
               className={`w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 ${
                 isChecked && explanTab &&

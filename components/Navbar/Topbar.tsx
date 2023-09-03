@@ -16,7 +16,7 @@ type TopbarProps = {
 };
 
 const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
-	const user = JSON.parse(localStorage.getItem('user-info'));
+	const user = JSON.parse(String(localStorage.getItem('user-info')));
 	console.log('user-info'+user);
 	
 	

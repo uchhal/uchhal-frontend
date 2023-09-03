@@ -8,7 +8,7 @@ const quizResultPage: React.FC<quizResultPageprops> = ({ questions }) => {
     <div className="grid grid-cols-1">
       {questions.map((question: any, index: number) => {
         return (
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center" key={index}>
           {/* <Modal /> */}
           <div className="p-3 py-5 md:p-8 bg-white shadow rounded-lg max-w-[800px] w-11/12 min-h-[300px]">
             <p className="text-right pb-2 text-green-600">

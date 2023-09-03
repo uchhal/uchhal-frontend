@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 
-function McqRadioList({ problem, onAnswerChange }) {
+type mcqradiolistprops = {
+  problem:any;
+  onAnswerChange:any;
+}
+
+const McqRadioList:React.FC<mcqradiolistprops> = ({ problem, onAnswerChange }) => {
   const [isChecked, setIsChecked] = useState(false);
-  const handleCodingAnswer = (event) => {
+  const handleCodingAnswer = (event:any) => {
     const answer = event.target.value;
     localStorage.setItem(problem._id, JSON.stringify(answer))
     onAnswerChange(problem._id, answer);
@@ -14,14 +19,14 @@ function McqRadioList({ problem, onAnswerChange }) {
       <h4 className="mb-2">{problem.explanation}</h4>
       <ul className="w-[80%] text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
         {problem &&
-          problem.options.map((opt, index) => (
+          problem.options.map((opt:any, index:number) => (
             <li
               className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
               key={index}
             >
               <div className="flex items-center pl-3">
                 <input
-                  id={opt._id}
+                  id={opt}
                   type="radio"
                   value={index}
                   // defaultChecked ={localStorage.getItem(problem._id) === index.toString()}          
@@ -33,10 +38,10 @@ function McqRadioList({ problem, onAnswerChange }) {
                   checked = {localStorage.getItem(problem._id) == index.toString()} 
                 />
                 <label
-                  htmlFor={opt._id}
+                  htmlFor={opt}
                   className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                 >
-                  {opt.option}
+                  {opt}
                 </label>
               </div>
             </li>
