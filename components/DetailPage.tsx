@@ -1,5 +1,4 @@
 "use client";
-import DOMPurify from "dompurify";
 import React, { useState } from "react";
 import classes from "../styles/form.module.css";
 import { sendEmail } from "../utils/sendEmail";
@@ -19,20 +18,14 @@ const DetailForm = () => {
   });
   const [selectedOption, setSelectedOption] = useState("");
 
-  const handleSelectChange = (event) => {
+  const handleSelectChange = (event:any) => {
     setSelectedOption(event.target.value);
   };
-  const createHTML = (textInput: string) => {
-    const sanitizedHTML = DOMPurify.sanitize(textInput);
-    console.log("data >>>> ", sanitizedHTML);
-    return sanitizedHTML;
-  };
-  const handleChange = (event) => {
-    const value = createHTML(event.target.value);
-    setFormData({ ...formData, [event.target.name]: value });
+  const handleChange = (event:any) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = (e:any) => {
     e.preventDefault();
     console.log("submit", formData);
     // sendEmail(formData);
@@ -70,7 +63,6 @@ const DetailForm = () => {
       </div>
       <div className={`${classes.form__group}`}>
         <textarea
-          type="text"
           rows={5}
           name="description"
           value={formData.description}
@@ -81,7 +73,6 @@ const DetailForm = () => {
       </div>
       <div className={`${classes.form__group}`}>
         <textarea
-          type="text"
           rows={3}
           name="option1"
           value={formData.option1}
@@ -92,7 +83,6 @@ const DetailForm = () => {
       </div>
       <div className={`${classes.form__group}`}>
         <textarea
-          type="text"
           rows={3}
           name="option2"
           value={formData.option2}
@@ -103,7 +93,6 @@ const DetailForm = () => {
       </div>
       <div className={`${classes.form__group}`}>
         <textarea
-          type="text"
           rows={3}
           name="option3"
           value={formData.option3}
@@ -114,7 +103,6 @@ const DetailForm = () => {
       </div>
       <div className={`${classes.form__group}`}>
         <textarea
-          type="text"
           rows={3}
           name="option4"
           value={formData.option4}
@@ -125,7 +113,6 @@ const DetailForm = () => {
       </div>
       <div className={`${classes.form__group}`}>
         <textarea
-          type="text"
           rows={1}
           name="answer"
           value={formData.answer}
@@ -137,7 +124,6 @@ const DetailForm = () => {
 
       <div className={`${classes.form__group}`}>
         <textarea
-          type="text"
           rows={5}
           name="explain"
           value={formData.explain}

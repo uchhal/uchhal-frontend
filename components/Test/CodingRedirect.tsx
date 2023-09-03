@@ -6,6 +6,7 @@ import Link from "next/link";
 
 type McqCardprops = {
   path: string;
+  id:string;
 };
 
 const McqCard: React.FC<McqCardprops> = ({ path, id }) => {

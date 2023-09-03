@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 // const ProblemPage: React.FC<ProblemPageProps> = () => {
 const ProblemPage = () => {
 	const params = useParams();
-	const uid = params.qid;
+	const uid = String(params.qid);
 	console.log(uid);
 
 	const problem = useGetoneProblem(uid);

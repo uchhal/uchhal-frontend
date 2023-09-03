@@ -2,7 +2,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 
-const McqCard = ({ problem, path }) => {
+type mcqcardprops = {
+  problem:any;
+  path:string;
+}
+
+const McqCard:React.FC<mcqcardprops> = ({ problem, path }) => {
   const params = useParams();
   const uid = params.tid;
   if(uid != path) {

@@ -15,7 +15,9 @@ const HomepageMcqSubjects = () => {
         <Banner />
         {subject_details.map((subjectdata:SubjectDetails, index:number) => {
           return (
+            <div key={index}>
             <SubjectCard subjectdata={subjectdata}/>
+            </div>
           );
         })}
       </div>
